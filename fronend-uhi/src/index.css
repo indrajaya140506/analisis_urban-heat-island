@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #10b981;
+  width: 0;
+}
+
+.typing-1 {
+  animation: typing 3s steps(40) infinite alternate,
+             blink 0.8s infinite;
+}
+
+.typing-2 {
+  animation: typing 3s steps(40) infinite alternate,
+             blink 0.8s infinite;
+  animation-delay: 3.2s;
+}
+
+@keyframes typing {
+  0% { width: 0 }
+  40% { width: 100% }
+  60% { width: 100% }
+  100% { width: 0 }
+}
+
+@keyframes blink {
+  0% { border-color: transparent }
+  50% { border-color: #10b981 }
+  100% { border-color: transparent }
+}
+
+/* Fade text */
+.fade-in {
+  animation: fadeUp 2s ease-in-out infinite alternate;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0.6;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.reveal {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.reveal-1 {
+  animation: slideReveal 6s ease-in-out infinite;
+}
+
+.reveal-2 {
+  animation: slideReveal 6s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes slideReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  20% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  80% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+}
+
+/* Pastikan elemen Leaflet tidak tersembunyi */
+.leaflet-container {
+    height: 100vh;
+    width: 100vw;
+    outline: 0;
+}
+
+/* Memaksa elemen legenda agar selalu di depan */
+.leaflet-bottom.leaflet-right {
+    z-index: 999 !important;
+    pointer-events: auto !important;
+}
+
+.info.legend {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Pindahkan control Leaflet ke kanan agar tidak tertutup sidebar di desktop */
+@media (min-width: 768px) {
+  .leaflet-left {
+    left: 85px !important; /* Jika sidebar tertutup */
+    transition: left 0.5s ease;
+  }
+  
+  /* Jika kamu pakai state 'open' di parent, tambahkan class ini */
+  .sidebar-open .leaflet-left {
+    left: 300px !important; /* Jika sidebar terbuka */
+  }
+}
+
+/* Sembunyikan control yang tidak perlu di mobile agar tidak penuh */
+@media (max-width: 768px) {
+  .leaflet-top.leaflet-left {
+    top: 70px !important; /* Turunkan sedikit agar tidak kena Header */
+  }
+  .leaflet-control-zoom {
+    display: none; /* Di mobile biasanya user pakai pinch zoom */
+  }
+}

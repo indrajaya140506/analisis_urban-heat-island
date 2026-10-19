@@ -1,0 +1,10 @@
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+import 'leaflet/dist/leaflet.css'
+import "flowbite";
+import "leaflet-draw/dist/leaflet.draw.css";
+
+createRoot(document.getElementById('root')).render(
+  <App />
+)
