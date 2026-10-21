@@ -1,13 +1,14 @@
+
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import LogoUhi from "../../assets/logouhi.png";
-import GlobalLoader from "../ui/GlobalLoader"; // ← TAMBAH
+import GlobalLoader from "../ui/GlobalLoader";
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false); // ← TAMBAH
+  const [loading, setLoading] = useState(false);
 
   const isActive = (path) => location.pathname === path;
 
@@ -31,13 +32,13 @@ export default function Sidebar() {
   ];
 
   const handleNav = (path) => {
-    setLoading(true); // ← SHOW LOADER
+    setLoading(true);
     setOpen(false);
 
     setTimeout(() => {
       navigate(path);
-      setLoading(false); // ← HIDE LOADER
-    }, 600); // delay smooth
+      setLoading(false);
+    }, 600);
   };
 
   return (
@@ -48,81 +49,143 @@ export default function Sidebar() {
       {/* MENU BUTTON */}
       <button
         onClick={() => setOpen(!open)}
-        className="hidden md:flex fixed top-24 left-6 z-[2000] 
-        bg-white/80 backdrop-blur-md border border-slate-100 
-        shadow-sm rounded-xl p-2 hover:bg-white transition"
+        aria-label={open ? "Close sidebar" : "Open sidebar"}
+        className="hidden md:flex fixed top-24 left-6 z-[2000]
+        h-11 w-11 items-center justify-center
+        rounded-xl border border-slate-200/80
+        bg-white/90 backdrop-blur-xl
+        shadow-[0_4px_20px_rgba(15,23,42,0.08)]
+        transition-all duration-300
+        hover:border-emerald-200 hover:bg-white
+        hover:shadow-[0_8px_24px_rgba(16,185,129,0.12)]
+        active:scale-95"
       >
-        <div className="w-5 h-5 flex flex-col justify-center gap-1">
-          <span className="h-[2px] w-5 bg-slate-800 rounded-full"></span>
-          <span className="h-[2px] w-4 bg-slate-800 rounded-full"></span>
-          <span className="h-[2px] w-3 bg-slate-800 rounded-full"></span>
+        <div className="flex h-5 w-5 flex-col justify-center gap-[5px]">
+          <span
+            className={`h-[2px] rounded-full bg-slate-700 transition-all ${
+              open ? "w-5" : "w-5"
+            }`}
+          />
+          <span className="h-[2px] w-4 rounded-full bg-slate-700 transition-all" />
+          <span className="h-[2px] w-3 rounded-full bg-emerald-600 transition-all" />
         </div>
       </button>
 
       {/* SIDEBAR */}
       <aside
-        className={`hidden md:flex fixed top-0 left-0 h-screen w-[520px] z-[1500]
+        className={`hidden md:flex fixed top-0 left-0 h-screen
+        w-[320px] max-w-[85vw] z-[1500]
         transition-transform duration-500 ease-in-out
-        ${open ? "translate-x-0" : "-translate-x-full"}`}
+        ${
+          open
+            ? "translate-x-0"
+            : "-translate-x-full"
+        }`}
       >
-        <div className="h-full flex flex-col bg-gradient-to-b from-[#0f3a28] via-[#0b2b1f] to-[#081c14]">
+        <div
+          className="flex h-full w-full flex-col overflow-hidden
+          border-r border-white/10
+          bg-gradient-to-b from-[#103b2b] via-[#0b2b20] to-[#071b14]
+          shadow-[12px_0_40px_rgba(0,0,0,0.12)]"
+        >
+          {/* BRAND */}
+          <div
+            className="relative flex flex-col items-center
+            justify-center overflow-hidden
+            border-b border-slate-200/70
+            bg-gradient-to-b from-white via-white to-slate-50
+            px-6 pb-7 pt-8"
+          >
+            <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-emerald-100/40 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-teal-100/40 blur-3xl" />
 
-         {/* BRAND */}
-<div className="flex flex-col items-center justify-center pt-8 pb-8 px-8 bg-white">
-  <img
-    src={LogoUhi}
-    alt="MAPS"
-    className="h-44 w-44 object-contain mb-1"
-  />
+            <div
+              className="relative mb-3 flex h-28 w-28 items-center
+              justify-center rounded-3xl border border-slate-100
+              bg-white shadow-[0_8px_28px_rgba(15,23,42,0.06)]"
+            >
+              <img
+                src={LogoUhi}
+                alt="MAPS"
+                className="h-24 w-24 object-contain"
+              />
+            </div>
 
-  <h2 className="text-[17px] font-semibold tracking-wide text-slate-900">
-    UHI MENU
-  </h2>
+            <h2 className="relative text-base font-bold tracking-[0.18em] text-slate-800">
+              UHI MENU
+            </h2>
 
-  <div className="w-12 h-[2px] bg-emerald-500/80 rounded-full my-2"></div>
+            <div className="my-3 flex items-center gap-2">
+              <span className="h-[2px] w-7 rounded-full bg-emerald-500" />
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="h-[2px] w-7 rounded-full bg-emerald-500" />
+            </div>
 
-  <p className="text-[9px] text-slate-500 tracking-[0.4em] uppercase">
-    GIS Urban Heat Island
-  </p>
-</div>
-          {/* MENU */}
-          <div className="flex-1 px-10 py-10">
-            <p className="text-[10px] text-emerald-200/50 tracking-[0.4em] uppercase mb-8">
-              Navigation
+            <p className="relative text-[9px] font-medium uppercase tracking-[0.28em] text-slate-500">
+              GIS Urban Heat Island
             </p>
+          </div>
+
+          {/* MENU */}
+          <div className="flex-1 px-5 py-8">
+            <div className="mb-5 flex items-center justify-between px-3">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-emerald-200/50">
+                Navigation
+              </p>
+
+              <span className="rounded-md border border-white/10 bg-white/5 px-2 py-1 text-[9px] font-medium tracking-wider text-emerald-100/50">
+                MENU
+              </span>
+            </div>
 
             <nav className="space-y-2">
               {menuItems.map((item) => (
                 <button
                   key={item.path}
                   onClick={() => handleNav(item.path)}
-                  className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl transition-all duration-300
+                  className={`group relative flex w-full items-center gap-4
+                  overflow-hidden rounded-xl border px-4 py-3.5
+                  text-left transition-all duration-300
                   ${
                     isActive(item.path)
-                      ? "bg-white/10 text-white"
-                      : "text-emerald-100/60 hover:text-white hover:bg-white/5"
+                      ? "border-emerald-400/20 bg-gradient-to-r from-emerald-400/15 to-emerald-400/[0.04] text-white shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+                      : "border-transparent text-emerald-100/60 hover:border-white/[0.06] hover:bg-white/[0.05] hover:text-white"
                   }`}
                 >
-                  <svg
-                    className={`h-5 w-5 transition-colors duration-300 ${
-                      isActive(item.path)
-                        ? "text-emerald-300"
-                        : "text-emerald-200/40"
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.8}
-                      d={item.icon}
-                    />
-                  </svg>
+                  {/* ACTIVE INDICATOR */}
+                  {isActive(item.path) && (
+                    <span className="absolute bottom-3 left-0 top-3 w-[3px] rounded-r-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.45)]" />
+                  )}
 
+                  {/* ICON */}
                   <span
-                    className={`text-[14px] tracking-wide ${
+                    className={`flex h-10 w-10 shrink-0 items-center
+                    justify-center rounded-lg transition-all duration-300
+                    ${
+                      isActive(item.path)
+                        ? "bg-emerald-400/15 text-emerald-300"
+                        : "bg-white/[0.04] text-emerald-200/50 group-hover:bg-white/[0.08] group-hover:text-emerald-200"
+                    }`}
+                  >
+                    <svg
+                      className="h-[19px] w-[19px]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.8}
+                        d={item.icon}
+                      />
+                    </svg>
+                  </span>
+
+                  {/* LABEL */}
+                  <span
+                    className={`text-[13px] tracking-wide transition-colors
+                    ${
                       isActive(item.path)
                         ? "font-semibold text-white"
                         : "font-medium"
@@ -131,30 +194,60 @@ export default function Sidebar() {
                     {item.name}
                   </span>
 
+                  {/* ACTIVE DOT */}
                   {isActive(item.path) && (
-                    <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-300"></span>
+                    <span className="ml-auto h-1.5 w-1.5 rounded-full bg-emerald-300 shadow-[0_0_8px_rgba(110,231,183,0.5)]" />
                   )}
                 </button>
               ))}
             </nav>
+
+            {/* INFORMATION */}
+            <div className="mt-10 rounded-xl border border-white/[0.07] bg-white/[0.025] p-4">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-200/80">
+                  GIS Workspace
+                </p>
+              </div>
+
+              <p className="text-[11px] leading-relaxed text-emerald-100/40">
+                Urban Heat Island monitoring and spatial analysis interface.
+              </p>
+            </div>
           </div>
 
           {/* FOOTER */}
-          <div className="bg-[#061711] border-t border-white/10 px-10 py-6 flex items-center gap-3">
-            <div className="h-9 w-9 rounded-md bg-emerald-500/90 flex items-center justify-center">
-              <span className="text-white text-sm font-bold">IJ</span>
+          <div className="border-t border-white/[0.08] bg-black/10 px-5 py-5">
+            <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.035] p-3">
+              <div
+                className="flex h-10 w-10 shrink-0 items-center
+                justify-center rounded-xl border border-emerald-300/20
+                bg-gradient-to-br from-emerald-400 to-emerald-700
+                shadow-[0_4px_12px_rgba(16,185,129,0.15)]"
+              >
+                <span className="text-xs font-bold tracking-wide text-white">
+                  IJ
+                </span>
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[11px] font-bold tracking-[0.12em] text-white">
+                  INDRAJYA
+                </p>
+
+                <p className="mt-1 text-[9px] uppercase tracking-[0.16em] text-emerald-300/60">
+                  Urban Heat Island
+                </p>
+              </div>
+
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </div>
 
-            <div>
-              <p className="text-[12px] font-semibold text-white uppercase">
-                INDRAJYA
-              </p>
-              <p className="text-[10px] text-emerald-300/60 uppercase tracking-widest">
-                Urban Heat Island
-              </p>
-            </div>
+            <p className="mt-3 text-center text-[9px] tracking-wider text-emerald-100/25">
+              GIS • SPATIAL INTELLIGENCE
+            </p>
           </div>
-
         </div>
       </aside>
 
@@ -162,7 +255,9 @@ export default function Sidebar() {
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="hidden md:block fixed inset-0 bg-black/25 backdrop-blur-sm z-[1400]"
+          className="hidden md:block fixed inset-0
+          z-[1400] bg-slate-950/30 backdrop-blur-[3px]
+          transition-opacity duration-300"
         />
       )}
     </>
