@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { analyzeUHI } from "../services/geeService";
 import Header from "../components/ui/Header";
@@ -24,15 +25,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-slate-50">
+    <div className="relative min-h-screen w-full overflow-hidden bg-[#FAFBFA]">
 
-      {/* ================= MAP (DI TURUNKAN AGAR TIDAK KETUTUP HEADER) ================= */}
-      <div className="absolute inset-0 pt-20 w-full h-full">
+      {/* ================= MAP ================= */}
+      <div className="absolute inset-0 h-full w-full bg-[#F1F5F2] pt-20">
         <MapView tileUrl={tileUrl} />
       </div>
 
       {/* ================= HEADER OVERLAY ================= */}
-      <div className="absolute top-0 left-0 right-0 z-[1000]">
+      <div className="absolute left-0 right-0 top-0 z-[1000]">
         <Header />
       </div>
 
@@ -42,9 +43,6 @@ export default function Dashboard() {
         chartData={chartData}
         loading={loading}
       />
-
-     
-      
 
     </div>
   );
